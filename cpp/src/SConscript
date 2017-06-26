@@ -1,0 +1,20 @@
+import os
+import sys
+
+normal_flags = [ '-std=c++0x', '-Wall', '-O2', '-fPIC', '-Wno-deprecated'  ,'-mfpmath=sse,387', '-funroll-loops' ,'-fomit-frame-pointer' , '-lpthread', '-msse3'  , '-D_LARGEFILE_SOURCE' , '-D_FILE_OFFSET_BITS=64']
+
+env = Environment(
+  CXX = 'g++',
+  CCFLAGS = normal_flags,
+  CPPPATH = ['#.'],
+  LIBPATH = ['/usr/local/lib'],
+  LIBS = ['pthread']
+)
+
+
+env.Object(Glob('*.cpp'))
+
+SConscript(['utils/SConscript',
+            'exponential_model/SConscript',
+            'main/SConscript'], exports = ['env'])
+
