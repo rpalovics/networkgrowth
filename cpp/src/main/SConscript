@@ -1,0 +1,7 @@
+Import('env')
+
+env.Object(Glob('*.cpp'))
+UTILS = Glob('#/../bin/utils/*.o')
+EXPONENTIAL_MODEL = Glob('#/../bin/exponential_model/*.o')
+
+env.Program('exponential_model_main',['exponential_model_main.o'] + EXPONENTIAL_MODEL + UTILS)
