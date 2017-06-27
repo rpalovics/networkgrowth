@@ -47,5 +47,6 @@ The following notebooks cover our measurements explained in Section 4 of our pap
 
 ## Exponential Model
 
-* The C++ code can be found [here](https://github.com/rpalovics/networkgrowth/tree/master/cpp).
-* An example script for running the model is [here](https://github.com/rpalovics/networkgrowth/blob/master/sh/experiment_exponential_model_example.sh).
+The C++ code can be found [here](https://github.com/rpalovics/networkgrowth/tree/master/cpp). To build the program, run the `scons` command inside the [/cpp/src/](https://github.com/rpalovics/networkgrowth/tree/master/cpp/src) folder.
+
+An example script for running the model is [here](https://github.com/rpalovics/networkgrowth/blob/master/sh/experiment_exponential_model_example.sh).
