@@ -35,7 +35,7 @@ These scripts generate all the statistics that we investigate in Section 4. Jupy
    * `experiment_network_events.sh` computes the fraction of R,I,H events as the networks grow
    * `experiment_exponent_stats.sh` computes the degree distribution parameter estimates as the networks grow
 
-##Measurements covered by Jupyter Notebooks
+## Measurements covered by Jupyter Notebooks
 
 The following notebooks cover our measurements explained in Section 4 of our paper. Please modify the input folder that should be the output of the previously detailed scripts in each Jupyter notebook.
 
@@ -45,7 +45,7 @@ The following notebooks cover our measurements explained in Section 4 of our pap
 * [Microscopic view](https://github.com/rpalovics/networkgrowth/blob/master/notebooks/es_micro.ipynb)
 * [No Fit to Uniform Edge Sampling](https://github.com/rpalovics/networkgrowth/blob/master/notebooks/es_random.ipynb)
 
-##Exponential Model
+## Exponential Model
 
 * The C++ code can be found [here](https://github.com/rpalovics/networkgrowth/tree/master/cpp).
 * An example script for running the model is [here](https://github.com/rpalovics/networkgrowth/blob/master/sh/experiment_exponential_model_example.sh).
