@@ -1,5 +1,5 @@
 #!/bin/bash
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+DIR="`dirname \"$0\"`"
 
 function run {
 $DIR/../cpp/bin/main/exponential_model_main  $FOLDER $N $H $r $s $p $q $MAX
