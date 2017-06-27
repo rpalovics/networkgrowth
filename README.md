@@ -44,3 +44,8 @@ The following notebooks cover our measurements explained in Section 4 of our pap
 * [Average degree and the exponent of the power-law degree distribution](https://github.com/rpalovics/networkgrowth/blob/master/notebooks/es_degdist.ipynb)
 * [Microscopic view](https://github.com/rpalovics/networkgrowth/blob/master/notebooks/es_micro.ipynb)
 * [No Fit to Uniform Edge Sampling](https://github.com/rpalovics/networkgrowth/blob/master/notebooks/es_random.ipynb)
+
+##Exponential Model
+
+* The C++ code can be found [here](https://github.com/rpalovics/networkgrowth/tree/master/cpp).
+* An example script for running the model is [here](https://github.com/rpalovics/networkgrowth/blob/master/sh/experiment_exponential_model_example.sh).
