@@ -16,6 +16,7 @@
 
 #include "utils/sparse_matrix.h"
 #include "utils/network.h"
+#include "multi_thread/CThread.h"
 
 using namespace std;
 
@@ -28,13 +29,14 @@ struct ExponentialModelRunnerParameters{
   ExponentialModelParameters exponentialModelParameters;
   vector <double> sizes;
   string folder;
+  int repeat;
 };
 
 class ExponentialModel{
   private:
     Network G,F;
-    double N,H,p,q,r,s,node_num;
-    double G_edge_num, F_edge_num;
+    double N,H,p,q,r,s,node_num,node_num_float, node_num_old;
+    double G_edge_num, F_edge_num,F_edge_num_float;
     double homo,ran,roo,inf;
   public:
     ExponentialModel(ExponentialModelParameters * parameters);
@@ -67,20 +69,24 @@ class ExponentialModel{
     double deterministic(double num, double * sum);
 };
 
-class ExponentialModelRunner{
+class ExponentialModelRunner : public CThreadPool{
   public:
     ExponentialModelRunner(ExponentialModelRunnerParameters * parameters){
       srand(time(NULL));
       exponentialModelParameters = parameters->exponentialModelParameters; 
       sizes = parameters->sizes;
       folder = parameters->folder;
+      repeat = parameters->repeat;
     };
     ~ExponentialModelRunner(){};
+    void worker(int _threadIdx);
     void run();
+    void writeIntoFile(string fileName);
   private:
     ExponentialModelParameters exponentialModelParameters;
     vector <double> sizes;
     string folder;
+    int repeat;
 };
 
 #endif
