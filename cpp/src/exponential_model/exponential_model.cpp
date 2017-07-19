@@ -14,6 +14,7 @@ ExponentialModel::ExponentialModel(ExponentialModelParameters * parameters){
   inf = 0;
   G_edge_num = 0;
   F_edge_num = 0;
+  F_edge_num_float = 0;
   init_nodes();
   init_edges();
 }
@@ -23,6 +24,7 @@ void ExponentialModel::init_nodes(){
   G.createEdges();F.createEdges();
   G.resize(N);F.resize(N);
   node_num = int(N);
+  node_num_float = int(N);
 }
 
 void ExponentialModel::init_edges(){
@@ -52,12 +54,14 @@ void ExponentialModel::init_edges(){
     add_edge(&F,a,b);
     add_edge(&G,a,b);
     F_edge_num++;
+    F_edge_num_float++;
     G_edge_num++;
   } 
 }
 
 void ExponentialModel::run(int max_node_num){
   while(node_num <max_node_num){
+    node_num_old=node_num_float;
     random_edge();
     homophily();
     random_root();
@@ -66,7 +70,8 @@ void ExponentialModel::run(int max_node_num){
 }
 
 void ExponentialModel::random_edge(){
- double num =  r * (double)node_num;
+ double num =  r * (double)node_num_old;
+ node_num_float+=2*num;
  num = deterministic(num,&ran);
  for(int ii=0; ii<num; ii++){
    add_edge(&G,node_num,node_num+1);
@@ -77,7 +82,8 @@ void ExponentialModel::random_edge(){
 }
 
 void ExponentialModel::homophily(){
-  double num = F_edge_num * 2 * s;
+  double num = F_edge_num_float * 2 * s;
+  F_edge_num_float+=num;
   num = deterministic(num,&homo);
   for(int ii=0; ii<num; ii++){
     int k = pref(&F,F_edge_num,-1);
@@ -93,7 +99,8 @@ void ExponentialModel::homophily(){
 }
 
 void ExponentialModel::random_root(){
- double num =  q * (double)node_num;
+ double num =  q * (double)node_num_old;
+ node_num_float+=2*num;
  num = deterministic(num,&roo);
  node_num+=num;
  G.resize(node_num);
@@ -101,7 +108,8 @@ void ExponentialModel::random_root(){
 }
 
 void ExponentialModel::random_influence(){
- double num =  p * (double)node_num;
+ double num =  p * (double)node_num_old;
+ node_num_float+=2*num;
  num = deterministic(num,&inf);
  for(uint ii=0; ii<num; ii++){
    int a = rand_int(1,node_num)-1;
@@ -169,18 +177,7 @@ double ExponentialModel::rand_double(){
   return (double)rand() / RAND_MAX;
 }
 
-
-double ExponentialModel::deterministic(double num,double * sum){
-  if(num < 0.5){
-    *sum += num;
-    num = (int)*sum;
-    if(*sum > 1) *sum = *sum - (int)*sum;
-  }
-  else num = get_rand(num);
-  return num;
- }
-
-void ExponentialModelRunner::run(){
+void ExponentialModelRunner::worker(int _threadIdx){
   ExponentialModelParameters p = exponentialModelParameters;
   ExponentialModel model(&p);
   vector <double> s = sizes;
@@ -193,7 +190,23 @@ void ExponentialModelRunner::run(){
     fileName += to_string((int)(1000*p.s)) + "_";
     fileName += to_string((int)p.H) + "_";
     fileName += to_string((int)p.N) + "_";
-    fileName += to_string((int)s[ii]);
+    fileName += to_string((int)s[ii]) + "_";
+    fileName += to_string((int)_threadIdx); 
     model.writeIntoFile(fileName);
   }
 }
+
+void ExponentialModelRunner::run(){
+  CreateAndRun(repeat,repeat);
+}
+
+
+double ExponentialModel::deterministic(double num,double * sum){
+  if(num < 0.5){
+    *sum += num;
+    num = (int)*sum;
+    if(*sum > 1) *sum = *sum - (int)*sum;
+  }
+  else num = get_rand(num);
+  return num;
+ }
