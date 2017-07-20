@@ -100,7 +100,7 @@ void ExponentialModel::homophily(){
 
 void ExponentialModel::random_root(){
  double num =  q * (double)node_num_old;
- node_num_float+=2*num;
+ node_num_float+=num;
  num = deterministic(num,&roo);
  node_num+=num;
  G.resize(node_num);
@@ -109,7 +109,7 @@ void ExponentialModel::random_root(){
 
 void ExponentialModel::random_influence(){
  double num =  p * (double)node_num_old;
- node_num_float+=2*num;
+ node_num_float+=num;
  num = deterministic(num,&inf);
  for(uint ii=0; ii<num; ii++){
    int a = rand_int(1,node_num)-1;
